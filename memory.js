@@ -44,22 +44,9 @@ function showCard(){
       // Reset color variables
       colorOne = undefined;
       colorTwo = undefined;
-    } else if (colorMatch) {
-      console.log("You selected the same card twice!");
-
-      var delay = 700; // This will make mismatched cards flip back over after 1 secondbox
-      setTimeout(function(){
-        document.getElementById(firstCardOfPair).style.background = '#263238';
-        document.getElementById(secondCardOfPair).style.background = '#263238';
-      }, delay);
-
-      // Reset color variables
-      colorOne = undefined;
-      colorTwo = undefined;
-
     } else {
       console.log("It's a mismatch");
-      
+
       var delay = 700; // This will make mismatched cards flip back over after 1 secondbox
       setTimeout(function(){
         document.getElementById(firstCardOfPair).style.background = '#263238';
