@@ -1,12 +1,9 @@
 var colors = ["#01579b", "#01579b", "#ff6600", "#ff6600", "#A3E496", "#A3E496", "#303f9f", "#303f9f", "#FFCC33", "#FFCC33", "#C51162", "#C51162", "#33691e", "#33691e", "#CC6699", "#CC6699", "#51041B", "#51041B" , "#3e2723", "#3e2723"];
 
-
-var clicks = 0;
-
 // 1. 'select' the correct square element
 var elements = document.querySelectorAll(".cards");
-var colorEven;
-var colorOdd;
+var colorOne;
+var colorTwo;
 var firstCardOfPair;
 var secondCardOfPair;
 var currentCard;
@@ -23,34 +20,57 @@ game();
 
 // <div name="whatever" id="something">
 // this.getAttribute("name")
-//
 
 function showCard(){
   var bgColor = this.getAttribute("name");
   var id=this.getAttribute("id");
   this.style.background = bgColor;
-  if(clicks % 2 === 0) {
-    colorEven = bgColor;
+
+  // First card pick logic
+  if (!colorOne) {
+    colorOne = bgColor;
     firstCardOfPair = id;
-  }
-  else {
-    colorOdd = bgColor;
+
+  // Second card pick logic
+  } else if (!colorTwo) {
+    colorTwo = bgColor;
     secondCardOfPair = id;
-  }
-  if(clicks % 2 !== 0){
-    if(colorEven !== colorOdd) {
+
+    var colorMatch = (colorOne === colorTwo);
+    var diffCard = (firstCardOfPair !== secondCardOfPair);
+
+    if (colorMatch && diffCard) {
+      console.log("It's a match!");
+      // Reset color variables
+      colorOne = undefined;
+      colorTwo = undefined;
+    } else if (colorMatch) {
+      console.log("You selected the same card twice!");
+
       var delay = 700; // This will make mismatched cards flip back over after 1 secondbox
-      console.log("It's a mismatch");
       setTimeout(function(){
         document.getElementById(firstCardOfPair).style.background = '#263238';
         document.getElementById(secondCardOfPair).style.background = '#263238';
       }, delay);
-    }else{
-      console.log("It's a match!");
+
+      // Reset color variables
+      colorOne = undefined;
+      colorTwo = undefined;
+
+    } else {
+      console.log("It's a mismatch");
+      
+      var delay = 700; // This will make mismatched cards flip back over after 1 secondbox
+      setTimeout(function(){
+        document.getElementById(firstCardOfPair).style.background = '#263238';
+        document.getElementById(secondCardOfPair).style.background = '#263238';
+      }, delay);
+
+      // Reset color variables
+      colorOne = undefined;
+      colorTwo = undefined;
     }
   }
-  clicks++;
-  console.log(clicks);
 }
 
 function shuffle(array) {
@@ -70,12 +90,7 @@ resetButton.addEventListener("click", resetGame );
 
 /// make a function resetGame
 function resetGame() {
-game();
-document.getElementById(firstCardOfPair).style.background = '#263238';
-document.getElementById(secondCardOfPair).style.background = '#263238';
+  game();
+  document.getElementById(firstCardOfPair).style.background = '#263238';
+  document.getElementById(secondCardOfPair).style.background = '#263238';
 }
-
-// step 1: it does nothing but console log
-// step 2: it shuffles cards array (but doesn't change the page)
-// step 3: it re-associates the card elements with the newly shuffled colors
-// step 4: do any variables need to be reset to default values (e.g. clicks)
